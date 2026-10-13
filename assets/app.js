@@ -100,11 +100,11 @@
     soundButtons.forEach(item => { item.setAttribute('aria-pressed', String(soundOn)); item.querySelector('.sound-label').textContent = soundOn ? 'Pause track' : 'Play track'; });
   }));
 
-  const input = document.querySelector('#box-photo-input');
-  input?.addEventListener('change', () => {
-    const files = Array.from(input.files || []).slice(0, 3); const windows = document.querySelectorAll('.photo-window');
-    files.forEach((file, i) => { const reader = new FileReader(); reader.onload = () => { windows[i].replaceChildren(Object.assign(document.createElement('img'), { src: reader.result, alt: 'Your selected packaging photo' })); }; reader.readAsDataURL(file); });
-    document.querySelectorAll('.photo-slots i').forEach((slot, i) => { slot.textContent = files[i] ? 'Photo added' : 'Ready'; });
-    if (files.length > 3 && toast) toast.textContent = 'Showing the first three photos';
+  document.querySelector('#tracking-form')?.addEventListener('submit', event => {
+    event.preventDefault();
+    const trackingNumber = document.querySelector('#tracking-number').value.trim();
+    if (!trackingNumber) return;
+    const trackingUrl = `https://www.canadapost-postescanada.ca/track-reperage/en/search?searchFor=${encodeURIComponent(trackingNumber)}`;
+    window.open(trackingUrl, '_blank', 'noopener,noreferrer');
   });
 })();
